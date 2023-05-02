@@ -68,17 +68,17 @@ public class ApiControllerAdvice {
     }
 
     @ExceptionHandler(value = ConstraintViolationException.class) //ConstraintViolationException.class의 에러가 생기면 아래 메소드대로 처리.
-    public ResponseEntity constraintViolationException(ConstraintViolationException e, HttpServletRequest httpServletRequest){
+    public ResponseEntity constraintViolationException(ConstraintViolationException e, HttpServletRequest httpServletRequest){ //예를 들어회원 정보를 컨트롤러로 보내면 HttpServletRequest 객체 안에 모든 데이터들이 들어있게됨.
 
-        List<Error> errorList = new ArrayList<>();
+        List<Error> errorList = new ArrayList<>(); // errorList list 생성
 
-        e.getConstraintViolations().forEach(error ->{
-            Stream<Path.Node> stream = StreamSupport.stream(error.getPropertyPath().spliterator(), false);
-            List<Path.Node> list = stream.collect(Collectors.toList());
+        e.getConstraintViolations().forEach(error ->{ 
+            Stream<Path.Node> stream = StreamSupport.stream(error.getPropertyPath().spliterator(), false); // 잘 모르겠음..
+            List<Path.Node> list = stream.collect(Collectors.toList()); //스트림을 리스트로 변환하는 방법: 1.collect(Collectors.toList()), 2.Stream.toList()
 
-            String field = list.get(list.size() -1).getName();
-            String message = error.getMessage();
-            String invalidValue = error.getInvalidValue().toString();
+            String field = list.get(list.size() -1).getName(); // alist.get(index) : python = alist[index] - 객체를 가져오는 메소드 / getName은 getClass의 getName인가..?
+            String message = error.getMessage(); // 에러의 원인을 간단히 출력해주는 메소드
+            String invalidValue = error.getInvalidValue().toString(); // 잘 모르겠음..
 
             Error errorMessage = new Error();
             errorMessage.setField(field);
@@ -89,7 +89,7 @@ public class ApiControllerAdvice {
 
         });
 
-        ErrorResponse errorResponse = new ErrorResponse();
+        ErrorResponse errorResponse = new ErrorResponse(); // 아래도 똑같이 어떠한 종류의 에러가 발생했을 때 실행할 메서드를 적어놓았다.
         errorResponse.setErrorList(errorList);
         errorResponse.setMessage("");
         errorResponse.setRequestUrl(httpServletRequest.getRequestURI());
