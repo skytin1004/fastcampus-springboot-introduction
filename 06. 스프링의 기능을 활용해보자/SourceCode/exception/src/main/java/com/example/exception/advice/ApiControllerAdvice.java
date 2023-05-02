@@ -45,29 +45,29 @@ public class ApiControllerAdvice {
         bindingResult.getAllErrors().forEach(error -> { //해당 BindingResult에서 발생한 에러를 모두 가져와 foreach를 통해 작업한다.
             FieldError field = (FieldError) error;
 
-            String fieldName = field.getField();
+            String fieldName = field.getField(); //  cls.getField("string1") -> getField의 리턴 예시: Public field found: public java.lang.String ClassDemo.string1 
             String message = field.getDefaultMessage();
             String value = field.getRejectedValue().toString();
 
-            Error errorMessage = new Error();
-            errorMessage.setField(fieldName);
-            errorMessage.setMessage(message);
-            errorMessage.setInvalidValue(value);
+            Error errorMessage = new Error(); //Error 클래스의 객체 생성
+            errorMessage.setField(fieldName); // fieldName 설정
+            errorMessage.setMessage(message); // message 설정
+            errorMessage.setInvalidValue(value); // InvalidValue 설정
 
             errorList.add(errorMessage);
         });
 
-        ErrorResponse errorResponse = new ErrorResponse();
+        ErrorResponse errorResponse = new ErrorResponse(); // ErrorResponse 클래스의 객체 생성.
         errorResponse.setErrorList(errorList);
         errorResponse.setMessage("");
-        errorResponse.setRequestUrl(httpServletRequest.getRequestURI());
-        errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.toString());
+        errorResponse.setRequestUrl(httpServletRequest.getRequestURI()); //URI설정
+        errorResponse.setStatusCode(HttpStatus.BAD_REQUEST.toString()); // http상태 코드를 에러 코드로 전달 -> 문자열로 변환해서.
         errorResponse.setResultCode("FAIL");
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse); //body부분에  errorResponse담아서 에러코드 전달.
     }
 
-    @ExceptionHandler(value = ConstraintViolationException.class)
+    @ExceptionHandler(value = ConstraintViolationException.class) //ConstraintViolationException.class의 에러가 생기면 아래 메소드대로 처리.
     public ResponseEntity constraintViolationException(ConstraintViolationException e, HttpServletRequest httpServletRequest){
 
         List<Error> errorList = new ArrayList<>();
