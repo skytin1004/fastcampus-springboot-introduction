@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-validation' // validation 을 할 때에는 build.gradle starter-validation을 추가해야 한다.
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

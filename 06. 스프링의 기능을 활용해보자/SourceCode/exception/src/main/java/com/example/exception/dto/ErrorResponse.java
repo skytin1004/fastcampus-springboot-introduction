@@ -10,6 +10,7 @@ public class ErrorResponse {
     String message;
     String resultCode;
 
+    //error이 발생하면 error을 리스트로 알려준다.
     List<Error> errorList;
 
     public String getStatusCode() {

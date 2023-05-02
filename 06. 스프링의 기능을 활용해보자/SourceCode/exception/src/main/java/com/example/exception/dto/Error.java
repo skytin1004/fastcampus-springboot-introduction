@@ -1,6 +1,7 @@
 package com.example.exception.dto;
 
 public class Error {
+    //Error 클래스에서 여러가지 멤버 변수를 만들었음.
 
     private String field;
     private String message;
