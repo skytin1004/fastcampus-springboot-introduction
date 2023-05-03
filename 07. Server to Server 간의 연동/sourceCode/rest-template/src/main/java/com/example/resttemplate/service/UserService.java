@@ -15,7 +15,7 @@ import java.net.URI;
 public class UserService {
 
     public void getForObject(){
-        URI uri = UriComponentsBuilder
+        URI uri = UriComponentsBuilder // 스프링에서 URI를 쉽게 만들어주는 어노테이션 (URI 의 구성요소만 입력하면 URI를 만들어준다.)
                 .fromUriString("http://localhost:9090")
                 .path("/api")
                 .queryParam("name","steve")
@@ -25,8 +25,8 @@ public class UserService {
                 .toUri();
         log.info("uri : {}",uri);
 
-        RestTemplate restTemplate = new RestTemplate();
-        User user = restTemplate.getForObject(uri, User.class);
+        RestTemplate restTemplate = new RestTemplate(); // RestTemplate : Rest API를 호출할 수 있는 Spring 내장 클래스
+        User user = restTemplate.getForObject(uri, User.class); //restTemplate.getForObject: 주어진 URL 주소로 HTTP GET 메서드에 의한 결과를 반환한다. 
         log.info("user : {}", user);
     }
 
@@ -42,9 +42,9 @@ public class UserService {
                 .toUri();
         log.info("uri : {}", uri);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<User> response = restTemplate.getForEntity(uri, User.class);
-        log.info("{}",response.getStatusCode());
+        RestTemplate restTemplate = new RestTemplate();// RestTemplate : Rest API를 호출할 수 있는 Spring 내장 클래스
+        // ResponseEntity<User> response = restTemplate.getForEntity(uri, User.class); //주어진 URL 주소로 HTTP GET 메서드를 거쳐 ResponseEntity로 결과를 반환받는다
+        log.info("{}",response.getStatusCode()); //기록하기.. 추가로 공부
         log.info("{}",response.getHeaders());
         log.info("{}",response.getBody());
     }
@@ -64,10 +64,10 @@ public class UserService {
         User user = new User();
         user.setName("홍길동");
         user.setAge(10);
-        User response = restTemplate.postForObject(uri, user, User.class);
+        User response = restTemplate.postForObject(uri, user, User.class);// POST 요청을 보내고 객체로 결과를 반환한다.
         log.info("response : {}", response);
     }
-
+ 
     public void postForEntity(){
         URI uri = UriComponentsBuilder
                 .fromUriString("http://localhost:9090")
@@ -83,7 +83,7 @@ public class UserService {
         user.setAge(10);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<User> response = restTemplate.postForEntity(uri, user, User.class);
+        ResponseEntity<User> response = restTemplate.postForEntity(uri, user, User.class); 
         log.info("{}",response.getStatusCode());
         log.info("{}",response.getHeaders());
         log.info("{}",response.getBody());
