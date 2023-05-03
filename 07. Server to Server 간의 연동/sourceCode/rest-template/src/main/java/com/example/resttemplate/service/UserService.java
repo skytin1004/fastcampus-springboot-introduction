@@ -69,7 +69,7 @@ public class UserService {
     }
  
     public void postForEntity(){
-        URI uri = UriComponentsBuilder
+        URI uri = UriComponentsBuilder //URI 를 손쉽게 만들어주는 스프링 클래스
                 .fromUriString("http://localhost:9090")
                 .path("/api/{path}")
                 .encode()
@@ -78,39 +78,42 @@ public class UserService {
                 .toUri();
         log.info("uri : {}", uri);
 
-        User user = new User();
+        User user = new User(); // User 클래스의 setter 이용
         user.setName("홍길동");
         user.setAge(10);
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<User> response = restTemplate.postForEntity(uri, user, User.class); 
-        log.info("{}",response.getStatusCode());
+        RestTemplate restTemplate = new RestTemplate();// RestTemplate : Rest API를 호출할 수 있는 Spring 내장 클래스
+        ResponseEntity<User> response = restTemplate.postForEntity(uri, user, User.class); //POST 요청을 보내고 ResponseEntity로 결과를 반환한다.
+        log.info("{}",response.getStatusCode());// 로그 공부 더하기.
         log.info("{}",response.getHeaders());
         log.info("{}",response.getBody());
     }
 
     public void exchange(){
-        URI uri = UriComponentsBuilder
+        URI uri = UriComponentsBuilder //URI 를 손쉽게 만들어주는 스프링 클래스
                 .fromUriString("http://localhost:9090")
                 .path("/api/{path}/header")
                 .encode()
                 .build()
                 .expand("user")
                 .toUri();
-        log.info("uri : {}", uri);
+        log.info("uri : {}", uri); // URI 기록 남기기
 
-        User user = new User();
+        User user = new User(); // User 클래스의 setter 이용
         user.setName("홍길동");
         user.setAge(10);
 
-        RequestEntity<User> req = RequestEntity
+        RequestEntity<User> req = RequestEntity // RequestEntity: URL 요청을 보낼 때 사용하는 클래스(header, body, method, url, type)을 매개변수로 받을 수 있음.
+        //ResponseEntity : URL 요청에 응답할 때 사용하는 클래스(body, header, status)을 매개변수로 받을 수 있음.
                 .post(uri)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("x-authorization","my-header")
                 .body(user);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<User> response = restTemplate.exchange(req, new ParameterizedTypeReference<>(){});
+
+        //지정된 HTTP 메서드로 URI를 실행하며, ResponseBody와 연결된 ResponseEntity를 반환한다. 더 공부하기.!! - > exchange 공부하기.
+        ResponseEntity<User> response = restTemplate.exchange(req, new ParameterizedTypeReference<>(){}); 
         log.info("{}",response.getStatusCode());
         log.info("{}",response.getHeaders());
         log.info("{}",response.getBody());
