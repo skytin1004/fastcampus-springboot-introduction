@@ -10,8 +10,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 
-@Slf4j
-@Service
+@Slf4j //스프링부트에서 로그를 남길 때 사용하는 어노테이션 (Simple Logging Facade for Java)
+@Service  // 해당 클래스를 루트 컨테이너에 빈(Bean) 객체로 생성해주는 어노테이션
 public class UserService {
 
     public void getForObject(){
